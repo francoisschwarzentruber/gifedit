@@ -1,0 +1,193 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<script src="js/gif.js" type="text/javascript"></script>
+<script src="js/gif.worker.js" type="text/javascript"></script>
+<script src="lib/codemirror.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="style.css"  />
+<link rel="stylesheet" type="text/css" href="lib/codemirror.css"  />
+<script src="lib/javascript.js"></script>
+<script src="lib/show-hint.js"></script>
+<script src="lib/javascript-hint.js"></script>
+
+<script src="lib/jshint.js"></script>
+<script src="lib/lint.js"></script>
+<script src="lib/javascript-lint.js"></script>
+
+<script src="lib/stacktrace.min.js"></script>
+
+<link rel="stylesheet" href="lib/show-hint.css">
+<link rel="stylesheet" href="lib/lint.css">
+<script src="js/drawingprimitives.js" type="text/javascript"></script>
+</head>
+<body>
+<h1>Gifedit, a tool for making animated GIF images</h1>
+<table>
+  <tr>
+    <td>
+      <h3>Help</h3>
+      For initialisation:</br>
+    <code>init({width: 120, height: 90});</code>
+</br></br>
+To draw, the context object is <code>ctx</code>.
+</br></br>
+You can use all html5 canvas library.
+</br></br>
+To clear the image: <code>clear();</code>
+</br></br>
+To a frame to the animation:</br> <code>addFrame({delay: 1000});</code>
+  </td>
+    <td>
+      <h3>Input: JavaScript code describing your animation</h3>
+<textarea id="code" cols=70 rows=50>
+init({width: 120, height: 90});
+
+ctx.font = "30px Arial";
+
+let y1 = 30;
+let y2 = 90;
+let ymoy = (y1 + y2)/2
+let yrange = y2 - ymoy;
+function drawFrame(t)
+{
+
+  clear();
+
+  if(t==1)
+    ctx.fillStyle = "green";
+  else
+    ctx.fillStyle = "black";
+
+  ctx.fillText("+3", 35, y1+t*yrange);
+  ctx.fillText("2+", 20, y2-t*yrange);
+
+
+
+  if(t == 1)
+  {
+
+    ctx.fillText("2", 20, y1+t*yrange);
+    ctx.fillText("3", 53, y2-t*yrange);
+  }
+  else
+  {
+      ctx.fillStyle = "CornflowerBlue";
+      ctx.fillText("x", 20, y1+t*yrange);
+      ctx.fillText("y", 53, y2-t*yrange);
+  }
+}
+
+
+
+drawFrame(0);
+
+
+addFrame({delay: 1000});
+
+for(let t = 0; t < 1; t+=0.1)
+{
+  drawFrame(t);
+  addFrame({delay: 50});
+}
+// or a canvas element
+
+
+drawFrame(1);
+addFrame({delay: 1000});
+
+</textarea>
+<td>
+  <td>
+    <h3>Output: Animated GIF</h3>
+<button onclick="gifgenerate()">Generate GIF</button>
+<img id="result"></img>
+</td></tr></table>
+<script>
+
+let info;
+let gif;
+let ctx;
+
+function init(argInfo)
+{
+  info = argInfo;
+  let width = info.width;
+  let height= info.height;
+  let canvas = document.createElement('canvas')
+  canvas.width = width;
+  canvas.height = height;
+
+  ctx = canvas.getContext('2d');
+
+  gif = new GIF({
+    workers: 1,
+    workerScript: "js/gif.worker.js",
+    quality: 10,
+    width: width,
+    height: height
+  });
+
+  clear();
+}
+
+
+
+
+
+
+
+function addFrame(argInfo)
+{
+  if(argInfo == undefined)
+      argInfo = {};
+
+  if(argInfo.copy == undefined)
+    argInfo.copy = true;
+  if(argInfo.delay == undefined)
+      argInfo.delay = 50;
+
+  gif.addFrame(ctx, argInfo);
+}
+
+
+
+
+
+
+let good = true;
+
+
+
+function gifgenerate()
+{
+  if(!good) return;
+  good = false;
+  eval(editor.getValue());
+  gif.on('finished', function(blob) {
+    document.getElementById("result").src = URL.createObjectURL(blob);
+    good = true;
+    //window.open(URL.createObjectURL(blob));
+  });
+  gif.render();
+}
+
+
+
+var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+    lineNumbers: true,
+    extraKeys: {"Ctrl-Space": "autocomplete"},
+    lint: true
+  });
+  editor.setSize(600, 600);
+
+
+
+</script>
+
+
+
+
+
+</body>
+</html>

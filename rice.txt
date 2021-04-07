@@ -1,0 +1,44 @@
+init({width: 400, height: 300});
+
+ctx.font = "14px Arial";
+
+function scan(prog, answer) {
+  clear();
+  wrapText(prog, 20, 20);
+  addFrame({delay: 1000});
+
+  drawImage("img/zoom.png", 50, 10);
+  addFrame({delay: 500});
+
+  clear();
+  wrapText(prog, 20, 20);
+  drawImage("img/zoom.png", 20, 30);
+  addFrame({delay: 500});
+
+  clear();
+  wrapText(prog, 20, 20);
+  drawImage("img/zoom.png", 70, 50);
+  addFrame({delay: 500});
+
+
+  
+    clear();
+    wrapText(prog, 20, 20);
+    if(answer) drawImage("img/ok.png", 70, 60, 24, 24);
+    else drawImage("img/notok.png", 70, 60, 24, 24);
+
+
+  
+  addFrame({delay: 500});
+
+}
+
+
+
+scan("function fact(n) {\n  if(n <= 0)\n    return 1; \n  else\n    return n*fact(n-1);", true);
+
+
+addFrame({delay: 1000});
+
+
+

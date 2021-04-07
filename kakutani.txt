@@ -1,0 +1,72 @@
+init({width: 300, height: 300});
+ctx.font = "14px Arial";
+
+function cx(x, y)
+{
+     return 150-(x-150)/2;
+}
+
+
+
+function cy(x, y)
+{
+     return 150-(y-150)/2;
+}
+
+
+function r(x, y)
+{
+   return (x+y)/7;
+}
+
+
+function drawFrame(x, y)
+{
+	let _cx = cx(x, y);
+	let _cy = cy(x, y);
+	let _r = r(x, y);
+
+
+	ctx.fillStyle = "white";
+	ctx.fillRect(0, 0, 400, 300);
+
+	ctx.fillStyle = "#FFEEAA";
+	ctx.beginPath();
+	ctx.arc(150, 150, 150, 0, 2 * Math.PI);
+	ctx.stroke();
+	ctx.fill();
+	
+	
+
+	ctx.fillStyle = "#8888FF";
+	ctx.beginPath();
+	ctx.arc(_cx, _cy, _r, 0, 2 * Math.PI);
+	ctx.stroke();
+	ctx.fill();
+
+	ctx.fillStyle = "#0000FF";
+	ctx.fillText("φ(x)", _cx, _cy+_r+11);
+
+	ctx.fillStyle = "black";
+	ctx.beginPath();
+	ctx.arc(x, y, 3, 0, 2 * Math.PI);
+	ctx.fill();
+
+	ctx.fillText("x", x, y-8);
+
+	addFrame({delay: 100});
+
+}
+
+for(let t = 0; t <= 1; t+=0.1)
+	drawFrame(280-50*t, 200-150*t);
+
+for(let t = 0; t <= 1; t+=0.1)
+	drawFrame(230-30*t, 50+50*t);
+
+for(let t = 0; t <= 0.5; t+=0.1)
+	drawFrame(200-100*t, 100+50*t);
+
+addFrame({delay: 900});
+
+

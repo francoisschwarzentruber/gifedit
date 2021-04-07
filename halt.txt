@@ -1,0 +1,49 @@
+init({width: 200, height: 120});
+
+ctx.font = "14px Arial";
+
+function scan(prog, answer) {
+  clear();
+  wrapText(prog, 20, 20);
+  addFrame({delay: 1000});
+
+  drawImage("img/zoom.png", 50, 10);
+  addFrame({delay: 500});
+
+  clear();
+  wrapText(prog, 20, 20);
+  drawImage("img/zoom.png", 20, 30);
+  addFrame({delay: 500});
+
+  clear();
+  wrapText(prog, 20, 20);
+  drawImage("img/zoom.png", 70, 50);
+  addFrame({delay: 500});
+
+  clear();
+  wrapText(prog, 20, 20);
+  drawImage("img/zoom.png", 20, 80);
+  addFrame({delay: 500});
+  
+    clear();
+    wrapText(prog, 20, 20);
+    if(answer) drawImage("img/ok.png", 170, 90, 24, 24);
+    else drawImage("img/notok.png", 170, 90, 24, 24);
+
+
+  
+  addFrame({delay: 500});
+
+}
+
+
+
+scan("function fact(n) \n  if(n <= 0)\n    return 1; \n  else\n    return n*fact(n-1);\n\nfact(3);", true);
+
+scan("function loop(n) \n   loop(n)\n\nloop(1)", false);
+scan("function f(n) \n  if(n == 0)\n     return 1; \n  else \n    f(n)\n\nf(3)", false);
+scan("function f(n) \n  if(n == 0)\n     return 1; \n  else \n    f(n)\n\nf(0)", true);
+
+
+
+
