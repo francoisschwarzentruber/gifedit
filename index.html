@@ -23,21 +23,9 @@
 </head>
 <body>
 <h1>Gifedit, a tool for making animated GIF images</h1>
+<a class="help" href="https://github.com/francoisschwarzentruber/gifedit">help</a>
 <table>
   <tr>
-    <td>
-      <h3>Help</h3>
-      For initialisation:</br>
-    <code>init({width: 120, height: 90});</code>
-</br></br>
-To draw, the context object is <code>ctx</code>.
-</br></br>
-You can use all html5 canvas library.
-</br></br>
-To clear the image: <code>clear();</code>
-</br></br>
-To a frame to the animation:</br> <code>addFrame({delay: 1000});</code>
-  </td>
     <td>
       <h3>Input: JavaScript code describing your animation</h3>
 <textarea id="code" cols=70 rows=50>
@@ -49,53 +37,35 @@ let y1 = 30;
 let y2 = 90;
 let ymoy = (y1 + y2)/2
 let yrange = y2 - ymoy;
-function drawFrame(t)
-{
 
+function drawFrame(t) {
   clear();
-
-  if(t==1)
-    ctx.fillStyle = "green";
-  else
-    ctx.fillStyle = "black";
+  ctx.fillStyle = (t==1) ? "green" : "black";
 
   ctx.fillText("+3", 35, y1+t*yrange);
   ctx.fillText("2+", 20, y2-t*yrange);
 
-
-
-  if(t == 1)
-  {
-
+  if(t == 1) {
     ctx.fillText("2", 20, y1+t*yrange);
     ctx.fillText("3", 53, y2-t*yrange);
   }
-  else
-  {
+  else {
       ctx.fillStyle = "CornflowerBlue";
       ctx.fillText("x", 20, y1+t*yrange);
       ctx.fillText("y", 53, y2-t*yrange);
   }
 }
 
-
-
 drawFrame(0);
-
-
 addFrame({delay: 1000});
 
-for(let t = 0; t < 1; t+=0.1)
-{
+for(let t = 0; t < 1; t+=0.1) {
   drawFrame(t);
   addFrame({delay: 50});
 }
-// or a canvas element
-
 
 drawFrame(1);
 addFrame({delay: 1000});
-
 </textarea>
 <td>
   <td>
